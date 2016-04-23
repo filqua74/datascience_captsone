@@ -12,8 +12,6 @@
 library(quanteda)
 library(digest)
 
-setwd("c:/cygwin64/home/filippo/repositories/capstone/original/en_US/")
-
 outputGram <- function(x) {
   phrase <- x
   phrase <- gsub(",",".",phrase)
@@ -35,6 +33,7 @@ generateNgramsFile <- function(filename,size,sample) {
     flip <- rbinom(1,1,sample)
     if (flip==1) {
       tokens <- tokenize(toLower(line),removeNumbers = TRUE, removePunct = TRUE, removeTwitter=TRUE)
+      #tokens <- removeFeatures(tokens, stopwords("english"))
       res <- ngrams(tokens, n = size, concatenator = " " )[[1]]
       sapply(res, function(x) cat(outputGram(x)))
     }
@@ -43,6 +42,6 @@ generateNgramsFile <- function(filename,size,sample) {
   close(con)
 }
 
-generateNgramsFile("corpora_ascii",1,1/3)
-generateNgramsFile("corpora_ascii",2,1/3)
-generateNgramsFile("corpora_ascii",3,1/3)
+generateNgramsFile("corpora/corpora_ascii",1,1/3)
+generateNgramsFile("corpora/corpora_ascii",2,1/2)
+generateNgramsFile("corpora/corpora_ascii",3,1/2)

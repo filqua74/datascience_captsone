@@ -73,10 +73,12 @@ estimateProb <- function(word,tokens) {
 
 wordPredict <- function(phrase,n=2) {
   tokens <- tokenize(toLower(phrase),removeNumbers = TRUE, removePunct = TRUE, removeTwitter=TRUE)[[1]]
+  #tokens <- removeFeatures(tokens, stopwords("english"))[[1]]
   ntoks <- length(tokens) 
   tokens <- tokens[(ntoks-n+1):ntoks] # last n-gram considered
   # Find candidates
   cands <- candidates_list(tokens)
+  print(cands)
   score <- sapply(cands,estimateProb,tokens)
   score <-array(unlist(score), dim = c(dim(score[[1]]), length(score)))
   res <- data.frame(word=cands,score=score,stringsAsFactors = FALSE)
