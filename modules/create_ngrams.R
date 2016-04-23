@@ -23,9 +23,9 @@ outputGram <- function(x) {
   return(output)
 }
 
-generateNgramsFile <- function(filename,size,sample) {
+generateNgramsFile <- function(filename,size,sample, suff="") {
   con <- file(paste(filename,".txt",sep = "")) 
-  fileoutname <- paste(filename,".",as.character(size),"grams.txt", sep="")
+  fileoutname <- paste(filename,".",suff,as.character(size),"grams.txt", sep="")
   print(fileoutname)
   sink(fileoutname)
   open(con)
@@ -45,3 +45,6 @@ generateNgramsFile <- function(filename,size,sample) {
 generateNgramsFile("corpora/corpora_ascii",1,1/3)
 generateNgramsFile("corpora/corpora_ascii",2,1/2)
 generateNgramsFile("corpora/corpora_ascii",3,1/2)
+# As testing set
+generateNgramsFile("corpora/corpora_ascii",3,1/5,suff="test_")
+

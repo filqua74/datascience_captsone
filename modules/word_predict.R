@@ -20,7 +20,7 @@ source("modules/goodturing.R")
 #}
 
 
-candidates_list <- function(tokens,n=15) {
+candidates_list <- function(tokens,n) {
   ntoks <- length(tokens)
   if (ntoks==2) {
     tmp <- filter(trigrams, V1==tokens[ntoks-1] & V2==tokens[ntoks])
@@ -71,14 +71,13 @@ estimateProb <- function(word,tokens) {
   return(p1)
 }
 
-wordPredict <- function(phrase,n=2) {
+wordPredict <- function(phrase,n=2,ncand=10) {
   tokens <- tokenize(toLower(phrase),removeNumbers = TRUE, removePunct = TRUE, removeTwitter=TRUE)[[1]]
   #tokens <- removeFeatures(tokens, stopwords("english"))[[1]]
   ntoks <- length(tokens) 
   tokens <- tokens[(ntoks-n+1):ntoks] # last n-gram considered
   # Find candidates
-  cands <- candidates_list(tokens)
-  print(cands)
+  cands <- candidates_list(tokens,ncand)
   score <- sapply(cands,estimateProb,tokens)
   score <-array(unlist(score), dim = c(dim(score[[1]]), length(score)))
   res <- data.frame(word=cands,score=score,stringsAsFactors = FALSE)

@@ -19,7 +19,7 @@ shinyServer(
     
     
     output$predWords <- renderUI({
-                          HTML(paste(wordPredict(reac$phrase)$word,collapse = "<br/>"))
+                          HTML(paste(wordPredict(reac$phrase,ncand=10)$word,collapse = "<br/>"))
                         })
   }
 )
